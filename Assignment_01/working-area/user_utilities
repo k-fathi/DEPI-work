@@ -1,0 +1,47 @@
+#!/bin/bash
+## Script to add and  delete users ##
+
+source add_user.sh
+source del_user.sh
+
+
+ask_for_continue=0
+
+while [ $ask_for_continue -eq 0 ]
+do
+        echo "Please, select what do you want to do: "
+
+        select requist in add_users  delete_users
+        do
+                if [ "$requist" = "add_users" ]; then
+                        add_users_fun
+                        break
+                elif [ "$requist" = "delete_users" ]; then
+                        del_users_fun
+                        break
+                else
+                        echo "Invalid Operation."
+                        break
+                fi
+        done
+	valid_answer=1
+	while [  $valid_answer = 1 ]
+	do
+		read -p "Do you want to continue? " answer
+
+        	case $answer in
+                	yes|YES|Yes|Y|y)
+                        	ask_for_continue=0
+                		valid_answer=0
+			;;
+                	no|NO|No|N|n)
+                        	ask_for_continue=1
+				valid_answer=0
+                	;;
+			*)
+				echo "Please, Enter a valid Answer"
+				valid_answer=1
+			;;
+        	esac
+	done
+done
