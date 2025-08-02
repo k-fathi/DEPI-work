@@ -1,0 +1,1 @@
+<svg class="svg_icon <?php echo $class ?>" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" height="<?php echo $size ?>px" width="<?php echo $size ?>px"><path d="M8 42V18L24 6l16 12v24H28V28h-8v14Z"/></svg>
