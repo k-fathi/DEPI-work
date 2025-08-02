@@ -24,7 +24,7 @@ then
 else
 # choosing the prore shell
 	echo "chose your prefared shell: "
-	select shell in bash sh zsh
+	select shell in bash sh zsh # csh, zsh, ksh, fish
 	do
 		if [ $shell == "bash" ]
        		then
@@ -46,6 +46,6 @@ fi
 
 useradd $username -m -d /home/$username -p $password -s $user_shell
 
-echo "Congrats, the user $username has been created successfully"
+echo "Congrats, the user ${username} has been created successfully"
 
 }

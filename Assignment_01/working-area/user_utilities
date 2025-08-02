@@ -32,11 +32,11 @@ do
         	case $answer in
                 	yes|YES|Yes|Y|y)
                         	ask_for_continue=0
-                		valid_answer=0
+                			valid_answer=0
 			;;
                 	no|NO|No|N|n)
                         	ask_for_continue=1
-				valid_answer=0
+							valid_answer=0
                 	;;
 			*)
 				echo "Please, Enter a valid Answer"
