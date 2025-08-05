@@ -76,6 +76,7 @@ docker pull alpine
 docker pull ubuntu
 ```
 > ![](screens/pull-alpine.png)
+> ![](screens/images.png)
 ### 3\. Saving and Loading Images
 
 You can save a Docker image to a `.tar` archive for backup or transfer, and then load it on another machine.
