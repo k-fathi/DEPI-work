@@ -32,6 +32,13 @@
     # -p: map ports (host-port:container-port) & -P: map a random port 
     ```
 
+- **Run a container with `--restart` policy:**
+    ```sh
+    docker run --restart always -d <image_name>
+    # --restart always: always restart the container if it stops
+    # Other options: no | on-failure | unless-stopped
+    ```
+
 - **Stop a container:**
     ```sh
     docker stop <container_name>
@@ -52,6 +59,20 @@
     ```
 
 > 💡 Most OS images have a default shell, so specifying `bash` is often unnecessary.
+
+---
+
+## 💾 Save & Load Images
+
+- **Save an image to a tar archive:**
+    ```sh
+    docker save -o <path/to/save.tar> <image_name>
+    ```
+
+- **Load an image from a tar archive:**
+    ```sh
+    docker load -i <path/to/save.tar>
+    ```
 
 ---
 
