@@ -1,7 +1,3 @@
-Of course\! Here is the updated markdown file with your changes for Assignment 03.
-
------
-
 # DEPI Training Program - DevOps Track
 
 This repository documents my progress and submitted assignments for the **Software Development - DevOps Engineer** track, part of the **DEPI Training Program**.
@@ -41,6 +37,15 @@ The repository is organized by assignment, with each assignment in its own dedic
 │   ├── working-area/
 │   └── spring-petclinic/
 │
+├── Assignment_04/
+│   ├── Solution.md
+│   ├── screens/
+│   └── working-area/
+│      ├── Dockerfile-test/
+│      ├── large-petclinic/
+│      ├── medium-petclinic/
+│      └── tiny-petclinic/
+│
 └── README.md
 ```
 
@@ -55,6 +60,7 @@ Here is a log of all completed assignments.
 | **Assignment 01** | Linux Essentials                       | File & Directory Management, User Management, Permissions, CLI Tips & Tricks | July 28, 2025  | [View Solution](./Assignment_01/Solution.md) |
 | **Assignment 02** | Web Server Setup & Basic Config      | Installing Nginx, Basic Server Block Configuration, Serving Dynamic Contents | August 1, 2025 | [View Solution](./Assignment_02/Solution.md) |
 | **Assignment 03** | Docker Fundamentals & Containerization | Image & Container Management, Port Mapping, Custom Image Building,    | August 5, 2025 | [View Solution](./Assignment_03/Solution.md) |
+| **Assignment 04** | Dockerfile and Image Optimization      | Understanding Dockerfile and Dockerfile Commands, Minimizing Docker Image Size| August 9, 2025 | [View Solution](./Assignment_04/Solution.md) |
 
 -----
 

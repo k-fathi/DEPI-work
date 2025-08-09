@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Docker Tool</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-800 via-purple-800 to-pink-800 text-white flex flex-col items-center py-10 px-4">
+
+  <div class="backdrop-blur-md bg-white/10 rounded-xl shadow-2xl p-8 w-full max-w-4xl space-y-6">
+    <h1 class="text-4xl font-bold text-center text-white drop-shadow-lg flex items-center justify-center space-x-3">
+      <span>Your Docker Tool 🐳</span>
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/docker.svg" alt="Docker Logo" class="w-12 h-12">
+    </h1>
+
+    <textarea
+      id="code-input"
+      rows="6"
+      class="w-full p-4 text-black bg-white/80 rounded-lg shadow-inner focus:outline-none focus:ring-4 focus:ring-purple-400"
+      placeholder="Enter your code or prompt here...">
+    </textarea>
+
+    <div class="flex justify-center space-x-4">
+      <button onclick="handleExplain()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-lg shadow-md transition-all transform hover:scale-105">
+        🧠 Explain Code
+      </button>
+      <button onclick="handleGenerate()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-5 rounded-lg shadow-md transition-all transform hover:scale-105">
+        ⚙️ Generate Code
+      </button>
+    </div>
+
+    <div id="loader" class="hidden flex items-center justify-center space-x-2 text-gray-200">
+      <svg class="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+      </svg>
+      <span>Loading...</span>
+    </div>
+
+    <div id="explain-output" class="prose prose-invert prose-sm lg:prose-md max-w-none bg-black/20 text-white p-4 rounded-lg shadow-md overflow-auto"></div>
+  </div>
+
+  <script>
+    async function callGemini(prompt, outputElement, loaderElement, buttonElement) {
+      loaderElement.style.display = 'flex';
+      outputElement.innerHTML = '';
+      buttonElement.disabled = true;
+      buttonElement.classList.add('opacity-50', 'cursor-not-allowed');
+
+      // --- 🔑 SECURITY WARNING 🔑 ---
+      // Your API key is exposed here. For a real application, you must 
+      // hide this key by using a secure backend to make the API call.
+      const apiKey = "AIzaSyAhjAEa9qtT9pXZPGKQ-NVuLX5n2byH65U"; 
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+
+      const payload = {
+        contents: [{ parts: [{ text: prompt }] }]
+      };
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const result = await response.json();
+
+        if (result.candidates && result.candidates.length > 0) {
+          const text = result.candidates[0].content.parts[0].text;
+          outputElement.innerHTML = marked.parse(text);
+        } else {
+          outputElement.innerHTML = '<p class="text-red-400">❌ Oops! Could not get a response. Please try again.</p>';
+        }
+      } catch (error) {
+        console.error('Error calling Gemini API:', error);
+        outputElement.textContent = `An error occurred: ${error.message}`;
+      } finally {
+        loaderElement.style.display = 'none';
+        buttonElement.disabled = false;
+        buttonElement.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
+    }
+
+    function handleExplain() {
+      const code = document.getElementById('code-input').value.trim();
+      if (!code) return alert("Please enter some code to explain.");
+      const prompt = `Explain the following code:\n\n${code}`;
+      callGemini(prompt, document.getElementById('explain-output'), document.getElementById('loader'), event.target);
+    }
+
+    function handleGenerate() {
+      const topic = document.getElementById('code-input').value.trim();
+      if (!topic) return alert("Please enter a prompt to generate code.");
+      const prompt = `Generate code for the following request:\n\n${topic}`;
+      callGemini(prompt, document.getElementById('explain-output'), document.getElementById('loader'), event.target);
+    }
+  </script>
+</body>
+</html>
