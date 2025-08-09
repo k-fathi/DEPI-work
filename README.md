@@ -41,14 +41,17 @@ The repository is organized by assignment, with each assignment in its own dedic
 │   ├── Solution.md
 │   ├── screens/
 │   └── working-area/
-│      ├── Dockerfile-test/
 │      ├── large-petclinic/
 │      ├── medium-petclinic/
-│      └── tiny-petclinic/
+│      ├── small-petclinic/
+|      └── Dockerfile-test/ 
+|           ├── index.html
+|           ├── Dockerfile
+│           ├── site.conf
+│           └── site.conf.tar
 │
 └── README.md
 ```
-
 -----
 
 ## Hands-On Assignments
