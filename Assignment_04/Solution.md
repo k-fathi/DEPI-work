@@ -27,7 +27,7 @@ ENV MADE_BY="Heisenberg"
 
 ARG UPDATE_PACKAGES="apt-get update"
 
-ARG INSTALL_BTOP="apt-get install -y htop"
+ARG INSTALL_HTOP="apt-get install -y htop"
 
 RUN ${UPDATE_PACKAGES} && ${INSTALL_BTOP}
 
