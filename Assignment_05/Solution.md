@@ -105,7 +105,7 @@ Docekrfile
 Solution.md
 switch-app3-db.sh
 ```
-### 1. Creating Networks
+### Creating Networks
 
 First, two distinct networks were created to isolate services.
 
@@ -117,7 +117,7 @@ docker network create --subnet 20.0.0.0/16 net-2
 > ![](screens/network.png)
 
 
-### 2. Creating Volumes
+### Creating Volumes
 
 Next, a separate volume was created for each database to ensure persistent and isolated data storage.
 

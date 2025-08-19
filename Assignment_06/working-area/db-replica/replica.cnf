@@ -1,0 +1,5 @@
+[mysqld]
+
+relay-log=mysql-relay-bin
+
+read-only=1

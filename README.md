@@ -51,13 +51,14 @@ The repository is organized by assignment, with each assignment in its own dedic
 │           └── site.conf.tar
 │
 ├── Assignment_05/
-│   ├── env/
-│   ├── screens/
-│   ├── spring-petclinic/
-│   ├── .dockerignore
-│   ├── Dockerfile
 │   ├── Solution.md
-│   └── switch-app3-db.sh
+│   ├── screens/
+|   ├── env/
+|   └── working-area/
+│       ├── spring-petclinic/
+│       ├── .dockerignore
+│       ├── Dockerfile
+│       └── switch-app3-db.sh
 │
 └── README.md
 ```

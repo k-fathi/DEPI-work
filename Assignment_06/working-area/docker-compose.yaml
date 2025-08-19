@@ -1,0 +1,66 @@
+  version: '3'
+  services:
+    nginx:
+      image: nginx
+      volumes:
+        - ./nginx-conf/:/etc/nginx/conf.d
+      networks:
+        - net-1
+      ports:
+        - "8888:81"
+      depends_on:
+        - app
+    app:
+      # build: .  # to use the docekrfile that makes the karimfathy1/tiny-petclinic:1.0.4 image 
+      image: karimfathy1/tiny-petclinic:1.0.4 
+      networks:
+        - net-1
+      # deploy:
+      #   replicas: 3
+      env_file:
+        - ./env/.app.env
+      depends_on:
+        primary-db: 
+          condition: service_healthy
+      restart: on-failure
+    primary-db:
+      image: mysql:8.0
+      container_name: primary-db-cont
+      networks:
+        - net-1
+      volumes:
+        - primary_db_vol:/var/lib/mysql
+        - ./db-primary/primary.cnf:/etc/mysql/conf.d/my.cnf 
+      env_file:
+        - ./env/.db.env
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+      restart: always
+    replica-db-1:
+      image: mysql:8.0
+      container_name: replica-db-cont-1
+      networks:
+        - net-1
+      volumes:
+        - replica-db-vol-1:/var/lib/mysql
+        - ./db-replica/replica.cnf:/etc/mysql/conf.d/my.cnf
+      env_file:
+        - ./env/.db.env
+      command: --server-id=2
+      depends_on: 
+        - primary-db
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+      restart: always
+      
+  volumes:
+    primary_db_vol: {}
+    replica-db-vol-1: {}
+  networks:
+    net-1: {}
