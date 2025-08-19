@@ -49,12 +49,12 @@ Here is a log of all completed assignments.
 
 | Assignment        | Assignment Title                         | Core Concepts Learned                                                                 | Date Completed    | Link to Solution                                     |
 | ----------------- | ---------------------------------------- | ------------------------------------------------------------------------------------- | ----------------- | ---------------------------------------------------- |
-| **Assignment 01** | Linux Essentials                         | File & Directory Management, User Management, Permissions, CLI Tips & Tricks          | July 28, 2025     | [View Solution](https://www.google.com/search?q=./Assignment_01/Solution.md)         |
-| **Assignment 02** | Web Server Setup & Basic Config        | Installing Nginx, Basic Server Block Configuration, Serving Dynamic Contents          | August 1, 2025    | [View Solution](https://www.google.com/search?q=./Assignment_02/Solution.md)         |
-| **Assignment 03** | Docker Fundamentals & Containerization   | Image & Container Management, Port Mapping, Custom Image Building                     | August 5, 2025    | [View Solution](https://www.google.com/search?q=./Assignment_03/Solution.md)         |
-| **Assignment 04** | Dockerfile and Image Optimization        | Understanding Dockerfile and Dockerfile Commands, Minimizing Docker Image Size        | August 9, 2025    | [View Solution](https://www.google.com/search?q=./Assignment_04/Solution.md)         |
-| **Assignment 05** | Docker Networking & Dynamic App Connectivity | Multi-container Networking, Volume Management, Dynamic Configuration with Scripts     | August 12, 2025   | [View Solution](https://www.google.com/search?q=./Assignment_05/Solution.md)         |
-| **Assignment 06** | Multi-Container Orchestration with Docker Compose | Docker Compose Services, Networks, Volumes, Healthchecks, Dependencies, MySQL Replication | August 19, 2025 | [View Solution](https://www.google.com/search?q=./Assignment_06/Solution.md) |
+| **Assignment 01** | Linux Essentials                         | File & Directory Management, User Management, Permissions, CLI Tips & Tricks          | July 28, 2025     | [View Solution](../Assignment_01/Solution.md)         |
+| **Assignment 02** | Web Server Setup & Basic Config        | Installing Nginx, Basic Server Block Configuration, Serving Dynamic Contents          | August 1, 2025    | [View Solution](../Assignment_02/Solution.md)         |
+| **Assignment 03** | Docker Fundamentals & Containerization   | Image & Container Management, Port Mapping, Custom Image Building                     | August 5, 2025    | [View Solution](../Assignment_03/Solution.md)         |
+| **Assignment 04** | Dockerfile and Image Optimization        | Understanding Dockerfile and Dockerfile Commands, Minimizing Docker Image Size        | August 9, 2025    | [View Solution](../Assignment_04/Solution.md)         |
+| **Assignment 05** | Docker Networking & Dynamic App Connectivity | Multi-container Networking, Volume Management, Dynamic Configuration with Scripts     | August 12, 2025   | [View Solution](../Assignment_05/Solution.md)         |
+| **Assignment 06** | Multi-Container Orchestration with Docker Compose | Docker Compose Services, Networks, Volumes, Healthchecks, Dependencies, MySQL Replication | August 19, 2025 | [View Solution](../Assignment_06/Solution.md) |
 
 -----
 
