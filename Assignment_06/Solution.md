@@ -6,8 +6,7 @@ Of course. Here is the updated solution file with the Mermaid sequence diagram a
 
 ## Outlines:
 
-### **Objective:**
-- Explain how to deploy a multi-container PetClinic application with a reverse proxy (Nginx) and a database that supports replication (Primary/Replica) using Docker Compose.
+1.  **Objective:** Explain how to deploy a multi-container PetClinic application with a reverse proxy (Nginx) and a database that supports replication (Primary/Replica) using Docker Compose.
 2.  **Project Structure:** Display the required files and folders.
 3.  **Architectural Overview:** A diagram showing how user requests are processed.
 4.  **Configuration Files:** Provide the complete content for all files.
@@ -16,7 +15,7 @@ Of course. Here is the updated solution file with the Mermaid sequence diagram a
 
 -----
 
-## 1\. Project Structure 📂
+## 2\. Project Structure 📂
 
 To begin, you must have the following file and folder structure:
 
@@ -36,7 +35,7 @@ To begin, you must have the following file and folder structure:
 
 -----
 
-## 2\. Architectural Overview  DIAGRAM
+## 3\. Architectural Overview  DIAGRAM
 
 The following diagram illustrates how Nginx acts as a reverse proxy. It receives requests from the user's browser, forwards them to one of the available application containers, and then adds a custom header (`Replica-ID`) to the response so you can see which specific container handled the request.
 
@@ -61,7 +60,7 @@ sequenceDiagram
 
 -----
 
-## 3\. Configuration Files
+## 4\. Configuration Files
 
 This is the complete content that should be inside each file.
 
@@ -204,7 +203,7 @@ SPRING_PROFILES_ACTIVE=mysql
 
 -----
 
-## 4\. How to Run!
+## 5\. How to Run!
 
 Follow these steps in order to launch the project and link the databases.
 
@@ -259,7 +258,7 @@ After all containers are running, configure the replication link.
 
 -----
 
-## 5\. Verifying Success
+## 6\. Verifying Success
 
 To make sure everything is working as expected.
 
