@@ -1,7 +1,3 @@
-Of course. Here is the updated `README.md` file, incorporating Assignment 06 into the structure and log.
-
------
-
 # DEPI Training Program - DevOps Track
 
 This repository documents my progress and submitted assignments for the **Software Development - DevOps Engineer** track, part of the **DEPI Training Program**.
