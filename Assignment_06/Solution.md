@@ -1,8 +1,4 @@
-Of course. Here is the updated solution file with the Mermaid sequence diagram added to a new section explaining the architecture.
-
------
-
-# Final Solution: Deploying PetClinic with Nginx & MySQL Replication
+# Assignment_06: Deploying PetClinic with Nginx & MySQL Replication
 
 ## Outlines:
 
