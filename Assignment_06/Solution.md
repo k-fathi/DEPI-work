@@ -11,7 +11,7 @@
 
 -----
 
-## 2\. Project Structure 📂
+## 2\. Project Structure
 
 To begin, you must have the following file and folder structure:
 
