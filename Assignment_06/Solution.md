@@ -6,7 +6,8 @@ Of course. Here is the updated solution file with the Mermaid sequence diagram a
 
 ## Outlines:
 
-1.  **Objective:** Explain how to deploy a multi-container PetClinic application with a reverse proxy (Nginx) and a database that supports replication (Primary/Replica) using Docker Compose.
+### **Objective:**
+- Explain how to deploy a multi-container PetClinic application with a reverse proxy (Nginx) and a database that supports replication (Primary/Replica) using Docker Compose.
 2.  **Project Structure:** Display the required files and folders.
 3.  **Architectural Overview:** A diagram showing how user requests are processed.
 4.  **Configuration Files:** Provide the complete content for all files.

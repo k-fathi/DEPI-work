@@ -178,7 +178,7 @@ docker network connect net-1 app-3
 
 > ![](screens/network-connect.png)
 
-## The Final [Switching Script](switch-app3-db.sh)
+## The Final [Switching Script](working-area/switch-app3-db.sh)
 ### To solve the challenge of dynamically connecting `app-3` to either `mysql-db-2` or `mysql-db-3`, the following script was created. It provides an automated and robust solution by handling stopping the old container, switching the network, and passing the correct environment file.
 
 ```bash
