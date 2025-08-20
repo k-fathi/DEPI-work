@@ -2,3 +2,5 @@
 server-id=1
 log-bin=mysql-bin
 binlog-do-db=petclinic-db
+gtid_mode=ON
+enforce-gtid-consistency=ON

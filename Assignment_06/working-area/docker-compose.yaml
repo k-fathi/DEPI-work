@@ -51,7 +51,8 @@
         - ./env/.db.env
       command: --server-id=2
       depends_on: 
-        - primary-db
+        primary-db:
+          condition: service_healthy
       healthcheck:
         test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
         interval: 10s

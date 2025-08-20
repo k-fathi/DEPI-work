@@ -163,6 +163,8 @@ Settings to enable replication on the primary database.
 server-id=1
 log-bin=mysql-bin
 binlog-do-db=petclinic-db
+gtid_mode=ON
+enforce-gtid-consistency=ON
 ```
 
 ### d. `db-replica/replica.cnf` File
@@ -171,8 +173,11 @@ Settings to prepare the replica database.
 
 ```ini
 [mysqld]
+server-id=2
 relay-log=mysql-relay-bin
 read-only=1
+gtid_mode=ON
+enforce-gtid-consistency=ON
 ```
 
 ### e. `env/.db.env` File
@@ -223,15 +228,11 @@ After all containers are running, configure the replication link.
 2.  Log into MySQL: `mysql -u root -p`
 3.  Create the replication user:
     ```sql
-    CREATE USER 'replicator'@'%' IDENTIFIED WITH 'mysql_native_password' BY 'replication_password';
+    CREATE USER 'replicator'@'%' IDENTIFIED WITH mysql_native_password BY 'replication_password';
     GRANT REPLICATION SLAVE ON *.* TO 'replicator'@'%';
     FLUSH PRIVILEGES;
     ```
-4.  Get the log status and **copy the `File` and `Position` values**:
-    ```sql
-    SHOW MASTER STATUS;
-    ```
-5.  Exit the container.
+4. Exit the container.
 
 **b. On `replica-db-1`:**
 
@@ -239,16 +240,15 @@ After all containers are running, configure the replication link.
 2.  Log into MySQL.
 3.  Run the following command after replacing the values you copied:
     ```sql
-    CHANGE REPLICATION SOURCE TO
-        SOURCE_HOST='primary-db',
-        SOURCE_USER='replicator',
-        SOURCE_PASSWORD='replication_password',
-        SOURCE_LOG_FILE='[File_Name_You_Copied]',
-        SOURCE_LOG_POS=[Position_Number_You_Copied];
+    CHANGE MASTER TO
+    MASTER_HOST='primary-db',
+    MASTER_USER='replicator',
+    MASTER_PASSWORD='replication_password',
+    MASTER_AUTO_POSITION=1;
     ```
 4.  Start the replication process:
     ```sql
-    START REPLICA;
+    START SLAVE;
     ```
 5.  Exit the container.
 
