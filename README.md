@@ -26,14 +26,19 @@ The repository is organized by assignment, with each assignment in its own dedic
 ├── Assignment_04/
 ├── Assignment_05/
 ├── Assignment_06/
-│   ├── Solution.md
-|   └── working-area  
-│       ├── env/
-│       ├── db-primary/
-│       ├── db-replica/
-│       ├── nginx-conf/
-|       ├── index.html
-│       └── docker-compose.yml
+├── Assignment_07/
+|   ├── Solution.md
+|   ├── Assignment_07.html
+|   ├── Dockerfile
+|   ├── compose-files/
+|   ├── env-files/
+|   ├── nginx
+|   │   ├── nginx-conf/
+|   │   └── ssl/
+|   ├── prometheus/
+|   ├── replication-files/
+|   └── spring-petclinic/
+│  
 └── README.md
 ```
 
@@ -51,8 +56,8 @@ Here is a log of all completed assignments.
 | **Assignment 04** | Dockerfile and Image Optimization        | Understanding Dockerfile and Dockerfile Commands, Minimizing Docker Image Size        | August 9, 2025    | [View Solution](./Assignment_04/Solution.md)         |
 | **Assignment 05** | Docker Networking & Dynamic App Connectivity | Multi-container Networking, Volume Management, Dynamic Configuration with Scripts     | August 12, 2025   | [View Solution](./Assignment_05/Solution.md)         |
 | **Assignment 06** | Multi-Container Orchestration with Docker Compose | Docker Compose Services, Networks, Volumes, Healthchecks, Dependencies, MySQL Replication | August 19, 2025 | [View Solution](./Assignment_06/Solution.md) |
-
------
+| **Assignment 07** | Multi-Environment Setup (Dev & Prod) with PostgreSQL Replication & Monitoring | Designing multiple environments, PostgreSQL primary/replica replication, containerized monitoring stack (Prometheus & Grafana) | August 23, 2025 | [View Solution](./Assignment_07/Solution.md) |
+----
 
 ## Tech Stack: The Starting Point
 
@@ -62,6 +67,7 @@ The journey begins with the foundational tools of DevOps.
   * **Shell:** Bash
   * **Web Server:** Nginx
   * **Containerization:** Docker & Docker Compose
+  * **Monitoring:** Prometheus & Grafana
 
 *This list will expand as the track progresses to include tools like Git, Kubernetes, Jenkins, and more.*
 

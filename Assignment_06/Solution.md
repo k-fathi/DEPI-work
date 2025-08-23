@@ -65,69 +65,74 @@ This is the complete content that should be inside each file.
 This is the main file that orchestrates all the containers to work together.
 
 ```yaml
-version: '3.8'
-services:
-  nginx:
-    image: nginx
-    volumes:
-      - ./nginx-conf/:/etc/nginx/conf.d
-    networks:
-      - net-1
-    ports:
-      - "8888:81"
-    depends_on:
-      - app
-
-  app:
-    image: karimfathy1/tiny-petclinic:1.0.4 
-    networks:
-      - net-1
-    env_file:
-      - ./env/.app.env
-    depends_on:
-      primary-db: 
-        condition: service_started
-    restart: on-failure
-
-  primary-db:
-    image: mysql:8.0.33 # Using a specific version for stability
-    container_name: primary-db-cont
-    networks:
-      - net-1
-    volumes:
-      - primary_db_vol:/var/lib/mysql
-      - ./db-primary/primary.cnf:/etc/mysql/conf.d/primary.cnf 
-    env_file:
-      - ./env/.db.env
-    healthcheck:
-      test: ["CMD-SHELL", "mysql -h localhost -u root -e 'USE petclinic-db; SHOW TABLES LIKE ''owners'';' | grep owners"]
-      interval: 10s
-      timeout: 5s
-      retries: 30
-    restart: always
-
-  replica-db-1:
-    image: mysql:8.0.33 # Using the same version
-    container_name: replica-db-cont-1
-    networks:
-      - net-1
-    volumes:
-      - replica-db-vol-1:/var/lib/mysql
-      - ./db-replica/replica.cnf:/etc/mysql/conf.d/replica.cnf
-    env_file:
-      - ./env/.db.env
-    command: --server-id=2
-    depends_on: 
-      primary-db:
-        condition: service_healthy
-    restart: always
-    
-volumes:
-  primary_db_vol: {}
-  replica-db-vol-1: {}
-
-networks:
-  net-1: {}
+cat docker-compose.yaml 
+  version: '3'
+  services:
+    nginx:
+      image: nginx
+      volumes:
+        - ./nginx-conf/:/etc/nginx/conf.d
+      networks:
+        - net-1
+      ports:
+        - "8888:81"
+      depends_on:
+        - app
+    app:
+      # build: .  # to use the docekrfile that makes the karimfathy1/tiny-petclinic:1.0.4 image 
+      image: karimfathy1/tiny-petclinic:1.0.4 
+      networks:
+        - net-1
+      # deploy:
+      #   replicas: 3
+      env_file:
+        - ./env/.app.env
+      depends_on:
+        primary-db: 
+          condition: service_healthy
+      restart: on-failure
+    primary-db:
+      image: mysql:8.0
+      container_name: primary-db-cont
+      networks:
+        - net-1
+      volumes:
+        - primary_db_vol:/var/lib/mysql
+        - ./db-primary/primary.cnf:/etc/mysql/conf.d/my.cnf 
+      env_file:
+        - ./env/.db.env
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+      restart: always
+    replica-db-1:
+      image: mysql:8.0
+      container_name: replica-db-cont-1
+      networks:
+        - net-1
+      volumes:
+        - replica-db-vol-1:/var/lib/mysql
+        - ./db-replica/replica.cnf:/etc/mysql/conf.d/my.cnf
+      env_file:
+        - ./env/.db.env
+      command: --server-id=2
+      depends_on: 
+        primary-db:
+          condition: service_healthy
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+      restart: always
+      
+  volumes:
+    primary_db_vol: {}
+    replica-db-vol-1: {}
+  networks:
+    net-1: {}
 ```
 
 ### b. `nginx-conf/app.conf` File

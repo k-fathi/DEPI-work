@@ -170,3 +170,5 @@ docker push localhost:8082/petclinic:1.0.0
 * If **Nginx** doesn’t proxy → confirm configs in [nginx-conf](./nginx/nginx-conf/).
 * If **Prometheus** misses metrics → validate [prometheus.yml](./prometheus/prometheus.yml).
 * Ensure volumes are cleared if old state persists: `docker volume prune`.
+
+# Check [Assignment_07.html](./Assignment_07.html)
