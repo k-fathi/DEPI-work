@@ -1,0 +1,32 @@
+version: '3'
+services:
+  nginx:
+    image: localhost:8082/nginx
+    volumes: 
+      - ../nginx/nginx-conf/dev.conf:/etc/nginx/conf.d/dev.conf
+    ports:
+      - "80:81"
+  app:
+    container_name: app-cont
+    depends_on:
+      mysql:
+        condition: service_healthy 
+    env_file:
+      - ../env-files/connect-to-mysql.env
+  mysql:
+    image: localhost:8082/mysql:8.0
+    container_name: mysql-dev-cont
+    networks:
+      - app-network
+    env_file:
+      - ../env-files/mysql.env
+    volumes:
+      - mysql-dev-app-vol:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
+volumes:
+  mysql-dev-app-vol: {}

@@ -1,0 +1,14 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginx-cont
+    networks:
+      - app-network
+    depends_on:
+      - app
+  app:
+    image: localhost:8082/my-petclinic:1.0.0
+    networks:
+      - app-network
+networks:
+  app-network: {}

@@ -1,0 +1,68 @@
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus-cont
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - monitor-network
+      - compose-files_app-network 
+    restart: unless-stopped
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - "8085:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - monitor-network
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - monitor-network
+    restart: unless-stopped
+
+  postgres-exporter-primary:
+    image: prometheuscommunity/postgres-exporter
+    container_name: postgres-exporter-primary
+    environment:
+      - DATA_SOURCE_NAME=postgresql://user:user-password@postgres-primary-prod-cont:5432/petclinic-db-prod?sslmode=disable
+    networks:
+      - compose-files_app-network
+    restart: unless-stopped
+
+  postgres-exporter-replica:
+    image: prometheuscommunity/postgres-exporter
+    container_name: postgres-exporter-replica
+    environment:
+      - DATA_SOURCE_NAME=postgresql://user:user-password@postgres-replica-prod-cont:5432/petclinic-db-prod?sslmode=disable
+    networks:
+      - compose-files_app-network
+    restart: unless-stopped
+
+networks:
+  monitor-network: {}
+  compose-files_app-network:
+    external: true
+
+volumes:
+  prometheus-data: {}
+  grafana-data: {}
+
