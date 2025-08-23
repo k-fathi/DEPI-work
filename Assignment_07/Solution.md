@@ -1,4 +1,5 @@
-# Assignment\_07: Deploying Spring PetClinic with Nginx (HTTP/HTTPS), PostgreSQL Replication, and Monitoring (Prometheus + Grafana)
+# Assignment\_07: 
+Deploying Spring PetClinic with Nginx (HTTP/HTTPS), PostgreSQL Replication, and Monitoring (Prometheus + Grafana) in multiple Environments (Dev & Prod)
 
 > **Goal**: A complete `Solution.md` — describing how to run **Spring PetClinic** behind **Nginx** with **PostgreSQL** (Primary/Replica) in **production**, with **MySQL** in **development**, plus monitoring using **Prometheus + cAdvisor + Grafana**, and tools **SonarQube** and **Nexus**.
 
