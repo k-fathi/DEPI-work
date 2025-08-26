@@ -27,17 +27,10 @@ The repository is organized by assignment, with each assignment in its own dedic
 ├── Assignment_05/
 ├── Assignment_06/
 ├── Assignment_07/
+├── Assignment_08/
 |   ├── Solution.md
-|   ├── Assignment_07.html
-|   ├── Dockerfile
-|   ├── compose-files/
-|   ├── env-files/
-|   ├── nginx
-|   │   ├── nginx-conf/
-|   │   └── ssl/
-|   ├── prometheus/
-|   ├── replication-files/
-|   └── spring-petclinic/
+|   ├── inventory.ini
+|   └── screens/
 │  
 └── README.md
 ```
@@ -57,6 +50,7 @@ Here is a log of all completed assignments.
 | **Assignment 05** | Docker Networking & Dynamic App Connectivity | Multi-container Networking, Volume Management, Dynamic Configuration with Scripts     | August 12, 2025   | [View Solution](./Assignment_05/Solution.md)         |
 | **Assignment 06** | Multi-Container Orchestration with Docker Compose | Docker Compose Services, Networks, Volumes, Healthchecks, Dependencies, MySQL Replication | August 19, 2025 | [View Solution](./Assignment_06/Solution.md) |
 | **Assignment 07** | Multi-Environment Setup (Dev & Prod) with PostgreSQL Replication & Monitoring | Designing multiple environments, PostgreSQL primary/replica replication, containerized monitoring stack (Prometheus & Grafana) | August 23, 2025 | [View Solution](./Assignment_07/Solution.md) |
+| **Assignment 08** | Ansible Ping                             | Installing Ansible, Inventory Management, Ad-hoc commands                             | August 26, 2025   | [View Solution](./Assignment_08/Solution.md)         |
 ----
 
 ## Tech Stack: The Starting Point
@@ -68,6 +62,7 @@ The journey begins with the foundational tools of DevOps.
   * **Web Server:** Nginx
   * **Containerization:** Docker & Docker Compose
   * **Monitoring:** Prometheus & Grafana
+  * **Configuration Management:** Ansible
 
 *This list will expand as the track progresses to include tools like Git, Kubernetes, Jenkins, and more.*
 
@@ -78,4 +73,4 @@ The journey begins with the foundational tools of DevOps.
   * **Name:** Karim Fathy Abdel-Hady
   * **GitHub:** [My GitHub](https://github.com/k-fathi/)
   * **LinkedIn:** [My LinkedIn](https://www.linkedin.com/in/karim-fathy-2265b9361/)
-  * **Docker Hub:** [My DockerHub](https://hub.docker.com/repositories/karimfathy1)
+  * **DockerHub:** [My DockerHub](https://hub.docker.com/repositories/karimfathy1)

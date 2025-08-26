@@ -1,4 +1,4 @@
-# Docker Basics Assignment
+# Assignment_03: Docker Basics
 
 This document outlines the steps to run the Spring Petclinic application locally and then demonstrates fundamental Docker operations, including containerizing the application.
 
