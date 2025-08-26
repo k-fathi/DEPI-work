@@ -65,55 +65,6 @@ Both environments share the same **PetClinic app container image**, ensuring con
 
 ## 4) Architectural Overview (Diagram)
 
-```mermaid
-flowchart LR
-  subgraph Internet
-    U[Browser]
-  end
-
-  subgraph Edge[Nginx]
-    N1((HTTP:81))
-    N2((HTTPS:443))
-  end
-
-  subgraph App[Spring PetClinic]
-    A[petclinic app :8080]:::svc
-  end
-
-  subgraph DB[PostgreSQL Cluster]
-    P[(Primary)]:::db
-    R[(Replica)]:::db
-  end
-
-  subgraph MonStack[Monitoring]
-    PR((Prometheus:9090)):::mon
-    CA((cAdvisor:8080)):::mon
-    GR((Grafana:3000)):::mon
-    EXP1((postgres-exporter-primary:9187)):::mon
-    EXP2((postgres-exporter-replica:9187)):::mon
-  end
-
-  U-- HTTP/HTTPS -->N1
-  U-- HTTPS -->N2
-  N1-- proxy_pass -->A
-  N2-- proxy_pass -->A
-
-  A-- JDBC (prod) -->P
-  P<== Streaming Replication ==>R
-
-  CA-- container metrics -->PR
-  EXP1-- DB metrics -->PR
-  EXP2-- DB metrics -->PR
-  A-- /actuator/prometheus -->PR
-  PR-- dashboards -->GR
-
-  classDef svc fill:#eef,stroke:#88f,stroke-width:1px;
-  classDef db fill:#efe,stroke:#4b4,stroke-width:1px;
-  classDef mon fill:#ffe,stroke:#f90,stroke-width:1px;
-```
-
----
-
 ## 5) How to Run
 
 * **Development** (with MySQL):
@@ -172,4 +123,6 @@ docker push localhost:8082/petclinic:1.0.0
 * If **Prometheus** misses metrics → validate [prometheus.yml](./prometheus/prometheus.yml).
 * Ensure volumes are cleared if old state persists: `docker volume prune`.
 
-# Check [Assignment_07.html](./Assignment_07.html)
+
+
+![](./multi-docker-compose-with-monitoring-Page-1.drawio.svg)
