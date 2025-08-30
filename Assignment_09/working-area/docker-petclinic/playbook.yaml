@@ -1,0 +1,6 @@
+- name: isntall docker from ansible role for ubuntu
+  hosts: all
+  roles:
+    - geerlingguy.docker
+    - docker-works
+

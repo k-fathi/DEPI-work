@@ -1,0 +1,29 @@
+---
+- name: install utilities and dependencies RedHat
+  yum:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+  become: true
+
+- name: install yum repo for Docker
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+  become: true
+
+- name: Install Docker CE
+  yum:
+    name: docker-ce
+    update_cache: yes
+  become: true
+
+- name: Start & Enable Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  become: true

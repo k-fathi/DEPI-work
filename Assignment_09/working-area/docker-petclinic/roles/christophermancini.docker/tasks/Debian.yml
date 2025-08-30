@@ -1,0 +1,50 @@
+---
+- name: install utilities and dependencies Debian
+  apt:
+    name: "{{ item }}"
+  when: ansible_os_family == "Debian"
+  become: true
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+- name: install extra packages for Trusty
+  apt:
+    name: "{{ item }}"
+  when: 'ansible_distribution_release == "trusty"'
+  become: true
+  with_items:
+    - "linux-image-extra-{{ ansible_kernel }}"
+    - linux-image-extra-virtual
+
+- name: install Docker repo key for trusty (system Python on Trusty can cause problems)
+  shell: "curl -fsSL https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg | sudo apt-key add -"
+  when: ansible_distribution_release in ["trusty"]
+
+- name: install Docker repo key for non-trusty
+  apt_key:
+    url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+  become: true
+  when: ansible_distribution_release in ["xenial","stretch","wheezy","jessie"]
+
+- name: install Docker repo for trusty (system Python on Trusty can cause problems)
+  shell: "sudo add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable'"
+  when: ansible_distribution_release in ["trusty"]
+
+- name: update aptitude cache for trusty (system Python on Trusty can cause problems)
+  shell: sudo apt-get update -y
+  when: ansible_distribution_release in ["trusty"]
+
+- name: install Docker repo for non-trusty
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+    update_cache: yes
+  become: true
+  when: ansible_distribution_release in ["xenial","stretch","wheezy","jessie"]
+
+- name: Install Docker CE
+  apt:
+    name: docker-ce
+  become: true

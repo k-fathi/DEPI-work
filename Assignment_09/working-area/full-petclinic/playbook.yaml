@@ -1,0 +1,7 @@
+- name: isntall docker from ansible role for ubuntu
+  hosts: all
+  roles:
+    - geerlingguy.docker
+    - resources-up
+    - deploy-petclinic-app
+    

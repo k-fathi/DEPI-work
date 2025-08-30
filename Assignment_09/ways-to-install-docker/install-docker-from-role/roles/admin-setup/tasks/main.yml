@@ -1,0 +1,25 @@
+---
+- name: admin setup
+  user:
+    name: admin
+    state: present
+    uid: 1040
+    create_home: yes
+    shell: /bin/bash
+
+
+- name: add it to sudoers
+  lineinfile:
+    path: /etc/sudoers.d/admin
+    line: 'admin ALL=(ALL:ALL) NOPASSWD: ALL'
+    create: yes
+    owner: root
+    group: root
+    mode: 0440
+    validate: 'visudo -cf %s'
+
+- name: add authorized key for admin
+  authorized_key:
+    user: admin
+    state: present
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

@@ -1,0 +1,24 @@
+---
+galaxy_info:
+  author: Christopher Mancini
+  description: "Install Docker on RHEL or Debian based Linux distros using the Official Docker repositories."
+  license: Apache
+  min_ansible_version: 2.1
+  platforms:
+  - name: EL
+    versions:
+    - 6
+    - 7
+  - name: Ubuntu
+    versions:
+    - trusty
+    - xenial
+  - name: Debian
+    versions:
+    - wheezy
+    - jessie
+    - stretch
+  galaxy_tags:
+  - docker
+dependencies:
+  - bobbyrenwick.pip

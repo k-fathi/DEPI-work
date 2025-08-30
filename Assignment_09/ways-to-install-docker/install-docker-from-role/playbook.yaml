@@ -1,0 +1,6 @@
+---
+- name: isntall docker from ansible role
+  hosts: aws
+  roles:
+    - admin-setup
+    - geerlingguy.docker

@@ -1,0 +1,24 @@
+---
+- name: Execute RedHat OS family specific install
+  include: RedHat.yml
+  when: ansible_os_family == "RedHat"
+
+- name: Execute Debian OS family specific install
+  include: Debian.yml
+  when: ansible_os_family == "Debian" and ansible_distribution_release in ["trusty","xenial","stretch","wheezy","jessie"]
+
+- name: Install / verify needed pip modules are present
+  pip:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items:
+    - docker
+    - docker-compose
+
+- name: pull docker images
+  docker_image:
+    name: "{{ item }}"
+  become: true
+  with_items: "{{ docker_images }}"
+  when: docker_images is defined

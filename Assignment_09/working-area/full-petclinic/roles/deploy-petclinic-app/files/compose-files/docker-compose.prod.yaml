@@ -1,0 +1,49 @@
+services:
+  nginx:
+    build:
+      context: ../
+      dockerfile: ./nginx/nginx-conf/Dockerfile
+    ports:
+      - "80:81"
+      - "443:443"
+    restart: unless-stopped
+  app:
+    depends_on:
+      postgres-primary:
+        condition: service_healthy
+    env_file: 
+      - ../env-files/connect-to-postgres.env
+    restart: unless-stopped
+  postgres-primary:
+    image: bitnami/postgresql:latest
+    container_name: postgres-primary-prod-cont
+    networks:
+      - app-network
+    env_file: 
+      - ../env-files/postgres.env
+      - ../replication-files/primary-postgres.env
+    volumes:
+      - postgres-prod-primary-vol:/bitnami/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRESQL_USERNAME -d $$POSTGRESQL_DATABASE"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+  postgres-replica:
+    image: bitnami/postgresql:latest
+    container_name: postgres-replica-prod-cont
+    networks:
+      - app-network
+    env_file: 
+      - ../env-files/postgres.env
+      - ../replication-files/replica-postgres.env
+    depends_on:
+      postgres-primary:
+        condition: service_healthy
+    volumes:
+      - postgres-prod-replica-vol:/bitnami/postgresql
+    restart: unless-stopped
+volumes:
+  postgres-prod-primary-vol: {}
+  postgres-prod-replica-vol: {}

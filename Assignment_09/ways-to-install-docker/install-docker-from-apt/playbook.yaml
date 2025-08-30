@@ -1,0 +1,75 @@
+---
+- name: Setup User and Install Docker
+  hosts: aws
+  become: yes
+
+  tasks:
+    - name: 1. Add 'admin' user
+      ansible.builtin.user:
+        name: admin
+        state: present
+        create_home: yes
+        shell: /bin/bash
+
+    - name: 2. Make 'admin' user a passwordless sudoer
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/admin
+        line: 'admin ALL=(ALL) NOPASSWD: ALL'
+        owner: root
+        group: root
+        mode: '0440'
+        create: yes
+        validate: 'visudo -cf %s'
+
+    - name: 3. Install prerequisites for Docker repository
+      ansible.builtin.apt:
+        name:
+          - ca-certificates
+          - curl
+        state: present
+        update_cache: yes
+
+    - name: 4. Create Docker's GPG key directory
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        mode: '0755'
+        state: directory
+
+    - name: 5. Add Docker's official GPG key
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.asc
+        mode: '0644'
+
+    - name: 6. Add the Docker APT repository (with fix for new OS versions)
+      apt_repository:
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu jammy stable"
+        state: present
+        filename: docker
+
+    - name: 7. forcce update the packages
+      ansible.builtin.apt:
+        update_cache: yes
+    
+    - name: 8. Install Docker Engine and related packages
+      ansible.builtin.apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+        update_cache: yes # Run update again after adding the new repo
+
+    - name: 9. Add 'admin' user to the 'docker' group
+      ansible.builtin.user:
+        name: admin
+        groups: docker
+        append: yes
+
+    - name: 10. Start and enable the Docker service
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes

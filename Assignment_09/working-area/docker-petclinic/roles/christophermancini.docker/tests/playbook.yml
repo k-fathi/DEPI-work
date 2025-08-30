@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  become_method: sudo
+  connection: local
+  roles:
+    - { role: ansible-docker }
+  vars:
+    docker_images:
+      - mariadb:10
+      - golang:latest

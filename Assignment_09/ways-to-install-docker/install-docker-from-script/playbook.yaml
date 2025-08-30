@@ -1,0 +1,52 @@
+---
+- name: Access the test-server and copy the propper key to the remote authorized_keys
+  hosts: aws
+  tasks:
+    - name: add user admin
+      user:
+        name: admin
+        comment: ansible-user
+        uid: 1500
+        create_home: yes
+        shell: /bin/bash
+
+    - name: use a builtin module to make the sudoers file 
+      lineinfile:
+        path: /etc/sudoers.d/admin
+        line: 'admin ALL=(ALL) NOPASSWD: ALL'
+        create: yes
+        owner: root
+        group: root
+        mode: '0440'
+
+    - name: copy key to server
+      authorized_key:
+        user: admin
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: update caches
+      apt:
+        update_cache: yes
+    
+    - name: Download Docker convenience script
+      get_url:
+        url: https://get.docker.com
+        dest: /tmp/get-docker.sh
+        mode: '0755'
+
+    - name: Install Docker using the script
+      command: sh /tmp/get-docker.sh
+    
+    - name: add 'admin' user to 'docker' group
+      user:
+        name: admin
+        group: docker
+        append: yes
+
+
+    - name: enable docker
+      service:
+        name: docker  
+        state: started
+        enabled: yes

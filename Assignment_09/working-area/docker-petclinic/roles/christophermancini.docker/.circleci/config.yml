@@ -1,0 +1,34 @@
+version: 2
+jobs:
+  build:
+    machine:
+      enabled: true
+    working_directory: ~/ansible-docker
+    steps:
+      - checkout
+      - run:
+          name: update aptitude cache
+          command: |
+            sudo apt-key adv --keyserver pgp.mit.edu --recv-keys A4A9406876FCBD3C456770C88C718D3B5072E1F5
+            sudo apt-get update -y
+      - run:
+          name: update system python
+          command: |
+            sudo apt-get install -y python python-dev
+      - run:
+          name: install ansible
+          command: |
+            pip install ansible
+            ansible --version
+      - run:
+          name: configure
+          command: |
+            echo "localhost" > ansible.hosts
+            printf "[defaults]\nroles_path=../" > ansible.cfg
+            ansible-galaxy install -p "../" bobbyrenwick.pip
+      - run:
+          name: run syntax check
+          command: ansible-playbook tests/playbook.yml --syntax-check -i ansible.hosts -v
+      - run:
+          name: run the test playbook
+          command: ansible-playbook tests/playbook.yml -i ansible.hosts -v

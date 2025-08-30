@@ -1,0 +1,29 @@
+---
+- name: Copy all project files and folders to the server
+  synchronize:
+    src: "roles/deploy-petclinic-app/files/"
+    dest: "/home/{{ansible_user}}/app"
+    archive: yes
+    delete: yes 
+    # rsync_opts:
+    #   - "--exclude=.git"
+
+- name: Run Docker Compose to pull, build, and deploy all services
+  community.docker.docker_compose_v2:
+    project_src: "/home/{{ansible_user}}/app/compose-files"
+    files:
+      - docker-compose.yaml
+      - docker-compose.prod.yaml
+      - docker-compose.monitor.yaml
+    state: present
+    build: always
+    remove_orphans: yes
+#     scale:
+#       app: 3
+      
+
+# - name: Run Docker Compose using the shell module (Reliable Method)
+#   ansible.builtin.shell:
+#     cmd: >
+#       docker compose -f docker-compose.yaml -f docker-compose.prod.yaml -f docker-compose.monitor.yaml up --build -d --remove-orphans --scale app=3
+#     chdir: "/home/{{ansible_user}}/app/compose-files"

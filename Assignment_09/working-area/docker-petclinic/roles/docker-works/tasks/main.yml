@@ -1,0 +1,43 @@
+---
+- name: install git
+  package:
+    name: git
+    state: present
+
+- name: clone the project directory
+  git:
+    repo: https://github.com/spring-projects/spring-petclinic.git
+    dest: "/home/{{ansible_user}}/spring-petclinic"
+    update: yes
+    clone: yes
+- name: Copy the docker file
+  copy:
+    src: Dockerfile
+    dest: /home/{{ansible_user}}/Dockerfile
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: '0644'
+
+- name: Build the Docker image
+  community.docker.docker_image_build:
+    name: my-petclinic
+    tag: v1.0
+    path: /home/{{ansible_user}}
+    dockerfile: Dockerfile
+
+- name: Ensure data directory for volume exists on the host
+  file:
+    path: /data
+    state: directory
+    mode: '0755'
+
+- name: run the docker image
+  community.docker.docker_container:
+    name: my-petclinic-app
+    image: my-petclinic:v1.0
+    volumes:
+      - /data:/data
+    ports:
+      - 8080:8080
+    state: started
+    restart_policy: always
