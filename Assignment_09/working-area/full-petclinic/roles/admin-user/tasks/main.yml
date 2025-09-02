@@ -1,0 +1,17 @@
+---
+- name: 1. Add 'admin' user
+  ansible.builtin.user:
+    name: admin
+    state: present
+    create_home: yes
+    shell: /bin/bash
+
+- name: 2. Make 'admin' user a passwordless sudoer 
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/admin
+    line: 'admin ALL=(ALL) NOPASSWD: ALL'
+    owner: root
+    group: root
+    mode: '0440'
+    create: yes
+    validate: 'visudo -cf %s'

@@ -18,7 +18,7 @@
         owner: root
         group: root
         mode: '0440'
-
+  
     - name: copy key to server
       authorized_key:
         user: admin
@@ -37,16 +37,16 @@
 
     - name: Install Docker using the script
       command: sh /tmp/get-docker.sh
-    
+      notify: restart_docker
+
     - name: add 'admin' user to 'docker' group
       user:
         name: admin
         group: docker
         append: yes
-
-
-    - name: enable docker
+  
+  handlers:
+    - name: restart_docker
       service:
-        name: docker  
-        state: started
-        enabled: yes
+        name: docker
+        state: restarted

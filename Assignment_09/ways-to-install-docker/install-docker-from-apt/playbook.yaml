@@ -1,7 +1,6 @@
 ---
 - name: Setup User and Install Docker
-  hosts: aws
-  become: yes
+  hosts: all
 
   tasks:
     - name: 1. Add 'admin' user
@@ -18,10 +17,15 @@
         owner: root
         group: root
         mode: '0440'
-        create: yes
+        create: true
         validate: 'visudo -cf %s'
+    - name: 3. Add SSH public key for the 'admin' user for passwordless login
+      authorized_key:
+        user: admin
+        state: present
+        key: "{{ lookup('file', '/home/Heisenberg/.ssh/id_rsa.pub') }}"
 
-    - name: 3. Install prerequisites for Docker repository
+    - name: 4. Install prerequisites for Docker repository
       ansible.builtin.apt:
         name:
           - ca-certificates
@@ -29,29 +33,29 @@
         state: present
         update_cache: yes
 
-    - name: 4. Create Docker's GPG key directory
+    - name: 5. Create Docker's GPG key directory
       ansible.builtin.file:
         path: /etc/apt/keyrings
         mode: '0755'
         state: directory
 
-    - name: 5. Add Docker's official GPG key
+    - name: 6. Add Docker's official GPG key
       ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
         dest: /etc/apt/keyrings/docker.asc
         mode: '0644'
 
-    - name: 6. Add the Docker APT repository (with fix for new OS versions)
+    - name: 7. Add the Docker APT repository (with fix for new OS versions)
       apt_repository:
         repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu jammy stable"
         state: present
         filename: docker
 
-    - name: 7. forcce update the packages
+    - name: 8. forcce update the packages
       ansible.builtin.apt:
         update_cache: yes
     
-    - name: 8. Install Docker Engine and related packages
+    - name: 9. Install Docker Engine and related packages
       ansible.builtin.apt:
         name:
           - docker-ce
@@ -60,15 +64,15 @@
           - docker-buildx-plugin
           - docker-compose-plugin
         state: present
-        update_cache: yes # Run update again after adding the new repo
+        update_cache: yes
 
-    - name: 9. Add 'admin' user to the 'docker' group
+    - name: 10. Add 'admin' user to the 'docker' group
       ansible.builtin.user:
         name: admin
         groups: docker
         append: yes
 
-    - name: 10. Start and enable the Docker service
+    - name: 11. Start and enable the Docker service
       ansible.builtin.service:
         name: docker
         state: started

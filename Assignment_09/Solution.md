@@ -1,6 +1,20 @@
-# Assignment_09: Install Docker with Ansible & Deploy PetClinic
+# Assignment_09: Ways to install Docker with Ansible & PetClinic Dyployment 
 
 This document describes how I experimented with and implemented three different ways to install Docker on managed nodes using Ansible, and how I used those nodes to run the Spring PetClinic application. It includes small, copy-pasteable playbook examples, inventory snippets, and the commands I used to test the deployments.
+
+## Directory structure
+
+```
+.
+├── Solution.md
+├── ways-to-install-docker
+│   ├── install-docker-from-apt
+│   ├── install-docker-from-role
+│   └── install-docker-from-script
+└── working-area
+    ├── docker-petclinic
+    └── full-petclinic
+```
 
 ## Outline
 
@@ -42,9 +56,9 @@ This approach installs Docker packages using the distribution package manager. T
 
 ```yaml
 ---
+---
 - name: Setup User and Install Docker
-  hosts: aws
-  become: yes
+  hosts: all
 
   tasks:
     - name: 1. Add 'admin' user
@@ -61,10 +75,15 @@ This approach installs Docker packages using the distribution package manager. T
         owner: root
         group: root
         mode: '0440'
-        create: yes
+        create: true
         validate: 'visudo -cf %s'
+    - name: 3. Add SSH public key for the 'admin' user for passwordless login
+      authorized_key:
+        user: admin
+        state: present
+        key: "{{ lookup('file', '/home/Heisenberg/.ssh/id_rsa.pub') }}"
 
-    - name: 3. Install prerequisites for Docker repository
+    - name: 4. Install prerequisites for Docker repository
       ansible.builtin.apt:
         name:
           - ca-certificates
@@ -72,29 +91,29 @@ This approach installs Docker packages using the distribution package manager. T
         state: present
         update_cache: yes
 
-    - name: 4. Create Docker's GPG key directory
+    - name: 5. Create Docker's GPG key directory
       ansible.builtin.file:
         path: /etc/apt/keyrings
         mode: '0755'
         state: directory
 
-    - name: 5. Add Docker's official GPG key
+    - name: 6. Add Docker's official GPG key
       ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
         dest: /etc/apt/keyrings/docker.asc
         mode: '0644'
 
-    - name: 6. Add the Docker APT repository (with fix for new OS versions)
+    - name: 7. Add the Docker APT repository (with fix for new OS versions)
       apt_repository:
         repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu jammy stable"
         state: present
         filename: docker
 
-    - name: 7. forcce update the packages
+    - name: 8. forcce update the packages
       ansible.builtin.apt:
         update_cache: yes
     
-    - name: 8. Install Docker Engine and related packages
+    - name: 9. Install Docker Engine and related packages
       ansible.builtin.apt:
         name:
           - docker-ce
@@ -105,17 +124,18 @@ This approach installs Docker packages using the distribution package manager. T
         state: present
         update_cache: yes
 
-    - name: 9. Add 'admin' user to the 'docker' group
+    - name: 10. Add 'admin' user to the 'docker' group
       ansible.builtin.user:
         name: admin
         groups: docker
         append: yes
 
-    - name: 10. Start and enable the Docker service
+    - name: 11. Start and enable the Docker service
       ansible.builtin.service:
         name: docker
         state: started
         enabled: yes
+
 ```
 
 Project files (local to this example):
@@ -127,7 +147,7 @@ Project files (local to this example):
 
 Run it from the `install-docker-from-apt` directory:
 
-```bash
+```properties
 ansible-playbook  playbook.yaml 
 ```
 
@@ -146,15 +166,18 @@ This method downloads and executes Docker's official install script. The `instal
                 url: https://get.docker.com/
                 dest: /tmp/get-docker.sh
                 mode: '0755'
+        
+                    ...
 
         - name: Run Docker install script
             command: /tmp/get-docker.sh
-
-        - name: Ensure docker is started
-            service:
-                name: docker
-                state: started
-                enabled: true
+            notify: restart_docker  
+        
+    handlers:
+      - name: restart_docker
+        service:
+          name: docker
+          state: restarted
 ```
 
 
@@ -164,19 +187,18 @@ Project files (local to this example):
 - Inventory: [inventory.ini](ways-to-install-docker/install-docker-from-script/inventory.ini)
 - Local config: [ansible.cfg](ways-to-install-docker/install-docker-from-script/ansible.cfg)
 
-Run it the same way:
+Run Run it from the `install-docker-from-script` directory:
 
-```bash
+```properties
 ansible-playbook  playbook.yaml
 ```
 
 Notes:
-- This gives you the convenience of the latest Docker packages maintained by Docker. It's fast, but less controlled than installing via distro packages.
+- This gives you the convenience of the latest Docker packages maintained by Docker.
+- It's fast, but less controlled than installing via distro packages.
 
-Project files (local to this example):
 
-
-## 3) Install using Ansible role (`geerlingguy.docker`) + admin setup
+## 3) Install using Ansible role (`geerlingguy.docker`)
 
 This is the approach used in `install-docker-from-role` and is my recommended option for real projects. It uses a small `admin-setup` role (for user and sudo setup) and the community `geerlingguy.docker` role to manage Docker installation and configuration across distributions.
 
@@ -208,73 +230,13 @@ Project files (local to this example):
 - Inventory: [inventory.ini](ways-to-install-docker/install-docker-from-role/inventory.ini)
 - Local config: [ansible.cfg](ways-to-install-docker/install-docker-from-role/ansible.cfg)
 
-Run it like the others:
+Run it from the `install-docker-from-role` directory:
 
-```bash
+```properties
 ansible-playbook playbook.yaml
 ```
 
-## Inventory and `ansible.cfg` examples
-
-A minimal `inventory.ini` entry used in these experiments:
-
-```ini
-[servers]
-petclinic-node ansible_host=<192.0.2.10> ansible_user=ubuntu ansible_ssh_private_key_file=./docker-petclinic.pem
-```
-
-Example `ansible.cfg` snippets used in the repository (control node):
-
-
-If you prefer not to pass `-i inventory.ini` when running `ansible-playbook`, each project directory already contains an `ansible.cfg` that points to its local `inventory.ini`. Below are the exact `ansible.cfg` contents used for each method (copy these into the corresponding project directory if you edit them):
-
-`ways-to-install-docker/install-docker-from-apt/ansible.cfg`
-
-```ini
-[defaults]
-inventory=./inventory.ini
-remote_user=admin
-ask_pass=no
-
-[privilege_escalation]
-become=true
-become_method=sudo
-become_user=root
-become_ask_pass= false
-```
-
-`ways-to-install-docker/install-docker-from-script/ansible.cfg`
-
-```ini
-[defaults]
-inventory = ./inventory.ini
-remote_user = admin 
-ask_pass = false 
-
-[privilege_escalation]
-become = true
-become_method = sudo
-become_user = root
-become_ask_pass = false
-```
-
-`ways-to-install-docker/install-docker-from-role/ansible.cfg`
-
-```ini
-[defaults]
-inventory=./inventory.ini
-remote_user=admin
-ask_pass=no
-role_path=/home/Heisenberg/.ansible/roles
-
-[privilege_escalation]
-become=true
-become_method=sudo
-become_user=root
-become_ask_pass=false
-```
-
-## Running the PetClinic examples
+# Running the PetClinic 
 
 Two example projects are in `working-area`:
 
@@ -287,40 +249,36 @@ This project demonstrates building a Docker image and running the container via 
 
 To deploy from the control node:
 
+project files (local to this example):
+- Playbook: [playbook.yaml](working-area/docker-petclinic/playbook.yaml)
+- Inventory: [inventory.ini](working-area/docker-petclinic/inventory.ini)
+- Local config: [ansible.cfg](working-area/docker-petclinic/ansible.cfg)
+
 ```bash
 cd working-area/docker-petclinic
 ansible-playbook playbook.yaml
 ```
 
-Then open http://<host-ip>:8080 or run a quick check:
+### 2. full-petclinic (multi-service) - check [Assignment_07](../Assignment_07/) files
 
-```bash
-curl -fsS http://127.0.0.1:8080/ || echo "service not reachable"
-```
-
-### 2. full-petclinic (multi-service)
+![aws](working-area/full-petclinic/aws.svg)
 
 `full-petclinic` uses a role `deploy-petclinic-app` that places compose files and runs Docker Compose to bring up multiple services (app, postgres, nginx, monitoring stack).
 
 From the control node:
 
+project files (local to this example):
+- Playbook: [playbook.yaml](working-area/full-petclinic/playbook.yaml)
+- Inventory: [inventory.ini](working-area/full-petclinic/inventory.ini)
+- Local config: [ansible.cfg](working-area/full-petclinic/ansible.cfg)
+
 ```bash
 cd working-area/full-petclinic
-ansible-playbook playbook.yaml --private-key full-petclinic-2.pem
+ansible-playbook playbook.yaml 
 ```
 
-The role typically uploads `docker-compose.yml` and runs:
-
-```bash
-docker compose up -d
-```
-
-Verify the stack:
-
-```bash
-docker compose ps
-curl -fsS http://<host-ip>:8080/ || echo "full-petclinic not reachable"
-```
+Grafana results:
+![grafana](working-area/full-petclinic/grafana.png)
 
 ## Verification & troubleshooting
 

@@ -5,8 +5,6 @@
     dest: "/home/{{ansible_user}}/app"
     archive: yes
     delete: yes 
-    # rsync_opts:
-    #   - "--exclude=.git"
 
 - name: Run Docker Compose to pull, build, and deploy all services
   community.docker.docker_compose_v2:
