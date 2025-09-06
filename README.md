@@ -28,9 +28,10 @@ The repository is organized by assignment, with each assignment in its own dedic
 ├── Assignment_06/
 ├── Assignment_07/
 ├── Assignment_08/
+├── Assignment_09/
+├── Assignment_10/
 |   ├── Solution.md
-|   ├── ways-to-install-docker
-|   └── working-area
+|   └── working-area/
 │  
 └── README.md
 ```
@@ -52,6 +53,8 @@ Here is a log of all completed assignments.
 | **Assignment 07** | Multi-Environment Setup (Dev & Prod) with PostgreSQL Replication & Monitoring | Designing multiple environments, PostgreSQL primary/replica replication, containerized monitoring stack (Prometheus & Grafana) | August 23, 2025 | [View Solution](./Assignment_07/Solution.md) |
 | **Assignment 08** | Ansible Ping                             | Installing Ansible, Inventory Management, Ad-hoc commands                             | August 26, 2025   | [View Solution](./Assignment_08/Solution.md)         |
 | **Assignment 09** | Install Docker with Ansible & Deploy PetClinic | Multiple methods to install Docker (apt, script, role) and deploy Spring PetClinic via Ansible and Docker Compose | August 30, 2025 | [View Solution](./Assignment_09/Solution.md) |
+| **Assignment 10** | Jenkins with Docker Compose               | Deploy Jenkins using Docker Compose, persistent volumes, basic troubleshooting | September 6, 2025 | [View Solution](./Assignment_10/Solution.md) |
+
 ----
 
 ## Tech Stack: The Starting Point
@@ -64,8 +67,9 @@ The journey begins with the foundational tools of DevOps.
   * **Containerization:** Docker & Docker Compose
   * **Monitoring:** Prometheus & Grafana
   * **Configuration Management:** Ansible
+  * **CI/CD:** Jenkins
 
-*This list will expand as the track progresses to include tools like Git, Kubernetes, Jenkins, and more.*
+*This list will expand as the track progresses to include tools like Git and Kubernetes.*
 
 -----
 
