@@ -1,0 +1,25 @@
+version: '3'
+services:
+  jenkins:
+    build: .
+    container_name: jenkins
+    ports:
+      - '8080:8080'
+    dns:
+      - 8.8.8.8
+      - 1.0.0.1
+    volumes:
+      - 16_jenkins_try_jenkins-data:/var/jenkins_home/
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+    networks:
+      - 16_jenkins_try_jenkins-net
+    restart: always
+
+volumes:
+  16_jenkins_try_jenkins-data:
+    external: true
+
+networks:
+  16_jenkins_try_jenkins-net:
+    external: true
