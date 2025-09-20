@@ -12,7 +12,7 @@ services:
         - nexus-data:/nexus-data
       networks:
         - nexus-net 
-      restart: unless-stopped
+      restart: always
 
 networks:
   nexus-net: {}

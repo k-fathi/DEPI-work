@@ -18,6 +18,7 @@ services:
     networks:
       - sonar-net
       - 16_jenkins_try_jenkins-net
+    restart: always
   
   db:
     image: postgres:12
@@ -31,6 +32,7 @@ services:
       - sonar-net
     expose: 
       - '3306'
+    restart: always
 
 networks: 
   sonar-net:
