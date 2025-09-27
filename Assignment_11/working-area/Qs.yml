@@ -1,0 +1,34 @@
+Jenkins:
+    - agents
+    - workspace:
+        - best bractices?
+        - store data?
+    - checkout code 
+        - mandatory?
+        - pull from repo to what?
+    - CI, CD?
+    - Dependency?
+GitHub actions:
+    - agents
+    - runners
+    - workflow
+    - jobs
+    - checkout code
+        - mandatory
+        - pull from repo to what?    
+    - CI, CD?
+    - Dependency?
+
+Circle CI:
+    - CI, CD?
+
+Argu CD:
+    - CI, CD?
+
+Scanner:
+    - Trivy
+    - Sonarqube
+    - Integration tests
+    - different Langs?
+Caddy:
+    - caddy vs nginx
