@@ -30,8 +30,8 @@ services:
       - postgresql_data:/var/lib/postgresql/data
     networks:
       - sonar-net
-    expose: 
-      - '3306'
+    ports: 
+      - "5432:5432"
     restart: always
 
 networks: 
