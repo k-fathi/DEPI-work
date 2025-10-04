@@ -30,8 +30,11 @@ The repository is organized by assignment, with each assignment in its own dedic
 ├── Assignment_08/
 ├── Assignment_09/
 ├── Assignment_10/
-|   ├── Solution.md
-|   └── working-area/
+├── Assignment_11/
+│   ├── working-area/
+│   │   ├── jenkins/  
+│   │   ├── sonarqube/
+│   │   └── spring-petclinic/
 │  
 └── README.md
 ```
@@ -54,6 +57,7 @@ Here is a log of all completed assignments.
 | **Assignment 08** | Ansible Ping                             | Installing Ansible, Inventory Management, Ad-hoc commands                             | August 26, 2025   | [View Solution](./Assignment_08/Solution.md)         |
 | **Assignment 09** | Install Docker with Ansible & Deploy PetClinic | Multiple methods to install Docker (apt, script, role) and deploy Spring PetClinic via Ansible and Docker Compose | August 30, 2025 | [View Solution](./Assignment_09/Solution.md) |
 | **Assignment 10** | Jenkins with Docker Compose               | Deploy Jenkins using Docker Compose, persistent volumes, basic troubleshooting | September 6, 2025 | [View Solution](./Assignment_10/Solution.md) |
+| **Assignment 11** | CI/CD Pipeline with Jenkins, SonarQube & Docker | Complete CI/CD pipeline setup with Jenkins, SonarQube code analysis, Docker containerization, and GitHub webhook integration | September 10, 2025 | [View Solution](./Assignment_11/Solution.md) |
 
 ----
 
@@ -68,8 +72,12 @@ The journey begins with the foundational tools of DevOps.
   * **Monitoring:** Prometheus & Grafana
   * **Configuration Management:** Ansible
   * **CI/CD:** Jenkins
+  * **Code Quality:** SonarQube
+  * **Version Control:** Git
+  * **Continuous Integration:** GitHub Actions
+  * **Container Registry:** Docker Hub
 
-*This list will expand as the track progresses to include tools like Git and Kubernetes.*
+*This list will expand as the track progresses to include tools like Kubernetes.*
 
 -----
 
