@@ -1,5 +1,7 @@
 # Start from the official Jenkins image
-FROM jenkins/jenkins:lts
+# FROM jenkins/jenkins:lts
+# local image 
+FROM assignment_12-jenkins 
 
 # Switch to the root user to install packages
 USER root
@@ -22,7 +24,7 @@ RUN echo \
 RUN apt-get update && apt-get install -y docker-ce-cli docker-compose-plugin
 
 # 5. Create the docker group BEFORE trying to use it
-RUN groupadd docker
+# RUN groupadd docker
 
 # 6. Add jenkins user to the docker group
 RUN usermod -aG docker jenkins

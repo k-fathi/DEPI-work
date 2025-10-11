@@ -31,11 +31,11 @@ The repository is organized by assignment, with each assignment in its own dedic
 ├── Assignment_09/
 ├── Assignment_10/
 ├── Assignment_11/
-│   ├── working-area/
-│   │   ├── jenkins/  
-│   │   ├── sonarqube/
-│   │   └── spring-petclinic/
-│  
+├── Assignment_12/
+├── Assignment_13/
+|   └── Solution.md
+|   └── spring-petclinic/
+|   └── screens/
 └── README.md
 ```
 
@@ -58,6 +58,8 @@ Here is a log of all completed assignments.
 | **Assignment 09** | Install Docker with Ansible & Deploy PetClinic | Multiple methods to install Docker (apt, script, role) and deploy Spring PetClinic via Ansible and Docker Compose | August 30, 2025 | [View Solution](./Assignment_09/Solution.md) |
 | **Assignment 10** | Jenkins with Docker Compose               | Deploy Jenkins using Docker Compose, persistent volumes, basic troubleshooting | September 6, 2025 | [View Solution](./Assignment_10/Solution.md) |
 | **Assignment 11** | CI/CD Pipeline with Jenkins, SonarQube & Docker | Complete CI/CD pipeline setup with Jenkins, SonarQube code analysis, Docker containerization, and GitHub webhook integration | September 10, 2025 | [View Solution](./Assignment_11/Solution.md) |
+| **Assignment 12** | Advanced CI/CD Pipeline Implementation | Setting up comprehensive CI/CD pipeline with Jenkins, integrating with SonarQube, Docker, and automated deployment | September 20, 2025 | [View Solution](./Assignment_12/Solution.md) |
+| **Assignment 13** | Spring PetClinic CI/CD Pipeline | Implementing complete CI/CD pipeline for Spring PetClinic application with automated testing, containerization, and deployment | October 11, 2025 | [View Solution](./Assignment_13/Solution.md) |
 
 ----
 

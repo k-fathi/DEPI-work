@@ -22,10 +22,9 @@ services:
     image: sonarqube:lts-community
     depends_on:
       - db
-    environment:
-      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonar
-      SONAR_JDBC_USERNAME: sonar
-      SONAR_JDBC_PASSWORD: sonar
+    env_file:
+      - ./sonar.env
+    container_name: sonarqube
     volumes:
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_extensions:/opt/sonarqube/extensions
@@ -39,9 +38,9 @@ services:
   
   db:
     image: postgres:12
-    environment:
-      POSTGRES_USER: sonar
-      POSTGRES_PASSWORD: sonar
+    container_name: postgresql
+    env_file:
+      - ./postgres.env
     volumes:
       - postgresql:/var/lib/postgresql
       - postgresql_data:/var/lib/postgresql/data
@@ -59,8 +58,9 @@ services:
         - "8082:8082"
         - "8083:8083"
         - "8084:8084"
+        - "8085:8085"
       volumes:
-        - nexus-data:/nexus-data
+        - nexus_nexus-data:/nexus-data
       networks:
         - nexus-net 
       restart: always
@@ -71,7 +71,8 @@ volumes:
   sonarqube_logs:
   postgresql:
   postgresql_data:
-  nexus-data:
+  nexus_nexus-data:
+    external: true
   16_jenkins_try_jenkins-data:
     external: true
 
