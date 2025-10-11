@@ -111,6 +111,8 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/spring-petclinic:latest
 ```
 
+> ![](screens/pipeline.png)
+
 -----
 
 ## How to Add the Workflow to Your Repository
